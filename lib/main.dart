@@ -3,6 +3,7 @@ import 'package:untitled/Pages/homepage.dart';
 
 import 'package:untitled/pages/login_page.dart';
 import 'package:untitled/utils/routes.dart';
+import 'package:untitled/widgets/themes.dart';
 
 void main() {
   runApp(Myapp());
@@ -17,16 +18,17 @@ class Myapp extends StatelessWidget {
     //num can take both int and double
     num n = 22;
     var day = "tuesday";
+
     const pi = 3.14;
 
     //compiler decides the data type
     String name = "Shivansh";
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      themeMode: ThemeMode.light,
-      darkTheme: ThemeData(brightness: Brightness.dark),
+      theme: myTheme.LightTheme(context),
+      darkTheme: myTheme.DarkTheme(context),
+      debugShowCheckedModeBanner: false,
       routes: {
-        "/": (context) => loginPage(),
+        "/": (context) => homePage(),
         MyRoutes.homeRoute: (context) => homePage(),
         MyRoutes.loginRoute: (context) => loginPage()
       },
