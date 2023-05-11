@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled/modals/catalog.dart';
 import 'package:untitled/widgets/item_widget.dart';
+import 'package:untitled/widgets/themes.dart';
 
 import '../widgets/drawer.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,41 +37,111 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Catalog App", style: TextStyle(color: Colors.black)),
+      backgroundColor: myTheme.creamColor,
+      body:
+      SafeArea(
+        child: Container(
+          padding: Vx.m32,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              catalogHeader(),
+              if(CatalogModel.items!=null && CatalogModel.items.isNotEmpty)
+                CatalogList().expand()
+              else
+                 CircularProgressIndicator().centered().expand(),
+
+
+
+            ],
+          ),
+        ),
       ),
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: (CatalogModel != null && CatalogModel.items.isNotEmpty)
-              ? GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16),
-                  itemBuilder: (context, index) {
-                    final item = CatalogModel.items[index];
-                    return Card(
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: GridTile(
-                          child: Image.network(item.image),
-                          header: Container(
-                            decoration: BoxDecoration(color: Colors.deepPurple,),
-                              padding: EdgeInsets.all(12),
-                              child: Text(item.name,style: TextStyle(color: Colors.white),)),
-                          footer: Container(
-                              decoration: BoxDecoration(color: Colors.black),
-                              padding: EdgeInsets.all(12),
-                              child: Text(item.price.toString(),style: TextStyle(color: Colors.white),)),
-                        ));
-                  },
-                  itemCount: CatalogModel.items.length,
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                )),
-      drawer: MyDrawer(),
     );
   }
+}
+
+class CatalogList extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: CatalogModel.items.length,
+        itemBuilder: (context, index){
+        final catalog= CatalogModel.items[index];
+        return CatalogItem(catalog:catalog);
+        }
+    );
+  }
+}
+
+class CatalogItem extends StatelessWidget{
+  final Item catalog;
+  CatalogItem({super.key, required this.catalog} ): assert(catalog!=null);
+  @override
+  Widget build(BuildContext context) {
+    return VxBox(
+      child: Row(
+        children: [
+          CatalogImage(image: catalog.image),
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              catalog.name.text.lg.color(myTheme.darkBlueishColor).make(),
+              catalog.desc.text.textStyle(context.captionStyle).make(),
+              20.heightBox,
+              ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                buttonPadding: EdgeInsets.zero,
+                children: [
+
+                  "\$ ${catalog.price}".text.bold.xl.make(),
+                  ElevatedButton(onPressed: (){},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(myTheme.darkBlueishColor),
+                        shape: MaterialStateProperty.all(StadiumBorder(),)
+
+                      ),
+
+                      child: "Buy".text.make())
+
+                ],
+              ).pOnly(right: 8.0)
+
+            ],
+          ))
+        ],
+      )
+    ).white.square(150).roundedLg.make().py16();
+  }
+}
+class catalogHeader extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      child:Column(
+      children: [
+
+        "Catalog App".text.xl5.bold.color(myTheme.darkBlueishColor).make(),
+        "Trending Products".text.xl2.make()
+      ],
+    ),
+
+    );
+  }
+  
+}
+class CatalogImage extends StatelessWidget{
+ final String image;
+ const CatalogImage({super.key, required this.image} );
+  @override
+  Widget build(BuildContext context) {
+   return Image.network(image).box.rounded.p16.color(myTheme.creamColor).make().p16().w40(context);
+
+  }
+  
 }
