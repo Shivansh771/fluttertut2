@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/Pages/homepage.dart';
+import 'package:untitled/pages/homepage.dart';
 
 import 'package:untitled/pages/login_page.dart';
 import 'package:untitled/utils/routes.dart';
@@ -28,8 +28,8 @@ class Myapp extends StatelessWidget {
       darkTheme: myTheme.DarkTheme(context),
       debugShowCheckedModeBanner: false,
       routes: {
-        "/": (context) => homePage(),
-        MyRoutes.homeRoute: (context) => homePage(),
+        "/": (context) => HomePage(),
+        MyRoutes.homeRoute: (context) => HomePage(),
         MyRoutes.loginRoute: (context) => loginPage()
       },
     );
