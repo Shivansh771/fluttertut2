@@ -10,10 +10,12 @@ class HomeDetailsPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return   Scaffold(
-      appBar: AppBar(),
-      backgroundColor: myTheme.creamColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
+      backgroundColor: context.canvasColor,
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: context.cardColor,
         child: ButtonBar(
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: EdgeInsets.zero,
@@ -23,13 +25,13 @@ class HomeDetailsPage extends StatelessWidget{
               onPressed: () {},
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    myTheme.darkBlueishColor,
+                    context.theme.buttonColor,
                   ),
                   shape: MaterialStateProperty.all(
                     StadiumBorder(),
                   )),
-              child: "Buy".text.make(),
-            ).wh(100, 50)
+              child: "Add to Cart".text.make(),
+            ).wh(130, 50)
           ],
         ).p32(),
       ),
@@ -47,16 +49,17 @@ class HomeDetailsPage extends StatelessWidget{
                   arcType: VxArcType.CONVEY,
                   edge: VxEdge.TOP,
                   child: Container(
-                    color: Colors.white,
+                    color: context.cardColor,
                     width: context.screenWidth,
                     child: Column(
                       children: [
                         catalog.name.text.xl4
-                            .color(myTheme.darkBlueishColor)
+                            .color(context.accentColor)
                             .bold
                             .make(),
                         catalog.desc.text.textStyle(context.captionStyle).xl.make(),
                         10.heightBox,
+                        "Lorem ipsum gemera eta df aklfjasdk lfh asfialskdj hfasdo uhfuioa s klsad fh jklasd hfil asdhfalshjlk asjf asjkl fhasljkhfajlsk".text.textStyle(context.captionStyle).xl.make().p16()
                       ],
                     ).py64(),
                   ),

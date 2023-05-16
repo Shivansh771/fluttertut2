@@ -7,62 +7,67 @@ import '../../modals/catalog.dart';
 
 import 'Catalog_Image.dart';
 
-class CatalogList extends StatelessWidget{
+class CatalogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListView.builder(
         shrinkWrap: true,
         itemCount: CatalogModel.items.length,
-        itemBuilder: (context, index){
-          final catalog= CatalogModel.items[index];
-          return InkWell(child: CatalogItem(catalog:catalog),
-          onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeDetailsPage(catalog: catalog))),);
-        }
-    );
+        itemBuilder: (context, index) {
+          final catalog = CatalogModel.getByPosition(index);
+          return InkWell(
+            child: CatalogItem(catalog: catalog),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        HomeDetailsPage(catalog: CatalogModel.getById(2)))),
+          );
+        });
   }
 }
-class CatalogItem extends StatelessWidget{
+
+class CatalogItem extends StatelessWidget {
   final Item catalog;
-  CatalogItem({super.key, required this.catalog} ): assert(catalog!=null);
+
+  CatalogItem({super.key, required this.catalog}) : assert(catalog != null);
+
   @override
   Widget build(BuildContext context) {
     return VxBox(
         child: Row(
+      children: [
+        Hero(
+            tag: Key(catalog.id.toString()),
+            child: CatalogImage(image: catalog.image)),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Hero(
-              tag: Key(catalog.id.toString()),
-                child: CatalogImage(image: catalog.image)),
-            Expanded(child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+            catalog.name.text.lg.color(context.accentColor).make(),
+            catalog.desc.text.textStyle(context.captionStyle).make(),
+            20.heightBox,
+            ButtonBar(
+              alignment: MainAxisAlignment.spaceBetween,
+              buttonPadding: EdgeInsets.zero,
               children: [
-
-                catalog.name.text.lg.color(myTheme.darkBlueishColor).make(),
-                catalog.desc.text.textStyle(context.captionStyle).make(),
-                20.heightBox,
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceBetween,
-                  buttonPadding: EdgeInsets.zero,
-                  children: [
-
-                    "\$ ${catalog.price}".text.bold.xl.make(),
-                    ElevatedButton(onPressed: (){},
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(myTheme.darkBlueishColor),
-                            shape: MaterialStateProperty.all(StadiumBorder(),)
-
-                        ),
-
-                        child: "Buy".text.make())
-
-                  ],
-                ).pOnly(right: 8.0)
-
+                "\$ ${catalog.price}".text.bold.xl.make(),
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            context.theme.buttonColor),
+                        shape: MaterialStateProperty.all(
+                          StadiumBorder(),
+                        )),
+                    child: "Add To cart".text.make())
               ],
-            ))
+            ).pOnly(right: 8.0)
           ],
-        )
-    ).white.square(150).roundedLg.make().py16();
+        ))
+      ],
+    )).color(context.cardColor).square(150).roundedLg.make().py16();
   }
 }
