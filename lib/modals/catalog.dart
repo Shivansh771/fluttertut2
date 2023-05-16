@@ -11,6 +11,10 @@ class CatalogModel {
         image: "https://www.apple.com/newsroom/images/product/iphone/standard/Apple_announce-iphone12pro_10132020_big.jpg.large.jpg"
     )
   ];
+   Item getById(int id)=> items.firstWhere((element) => element.id==id,orElse: null);
+
+   //get item by position
+Item getByPosition(int pos)=>items[pos];
 }
 
 class Item {

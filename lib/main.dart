@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/pages/cart_page.dart';
 import 'package:untitled/pages/homepage.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled/pages/login_page.dart';
 import 'package:untitled/utils/routes.dart';
 import 'package:untitled/widgets/themes.dart';
@@ -24,13 +25,15 @@ class Myapp extends StatelessWidget {
     //compiler decides the data type
     String name = "Shivansh";
     return MaterialApp(
+      themeMode: ThemeMode.system,
       theme: myTheme.LightTheme(context),
       darkTheme: myTheme.DarkTheme(context),
       debugShowCheckedModeBanner: false,
       routes: {
         "/": (context) => HomePage(),
         MyRoutes.homeRoute: (context) => HomePage(),
-        MyRoutes.loginRoute: (context) => loginPage()
+        MyRoutes.loginRoute: (context) => loginPage(),
+        MyRoutes.cartRoute:(context)=> CartPage()
       },
     );
   }
