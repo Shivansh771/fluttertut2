@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/modals/cart.dart';
 import 'package:untitled/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -28,11 +29,12 @@ class CartPage extends StatelessWidget {
 class _CartTotal extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    final _cart=CartModel();
     return SizedBox(
       height: 200,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: ["\$9999".text.xl4.color(context.theme.accentColor).make(),
+        children: ["\$ ${_cart.totalPrice}".text.xl4.color(context.theme.accentColor).make(),
         30.widthBox,
         ElevatedButton(onPressed:(){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: "Buying not supported yet".text.make()))
@@ -53,16 +55,22 @@ class _CartList extends StatefulWidget{
 }
 
 class _CartListState extends State<_CartList>{
+  final _cart=CartModel();
  @override
   Widget build(BuildContext context) {
-  return ListView.builder(itemCount:50,
+  return _cart.items.isEmpty?"Nothing to Show".text.xl2.makeCentered(): ListView.builder(itemCount:_cart.items?.length,
       itemBuilder: (context,index)=>ListTile(
       leading: Icon(Icons.done),
         trailing: IconButton(
           icon: Icon(Icons.remove_circle_outline_outlined),
-          onPressed: (){},
+          onPressed: (){
+            _cart.remove(_cart.items[index]);
+            setState(() {
+
+            });
+          },
         ),
-        title: "Item 1".text.make(),
+        title: _cart.items[index].name.text.make(),
   ));
  }
 
